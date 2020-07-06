@@ -13,10 +13,13 @@ export const Form = styled.form`
   flex-direction: column;
 `;
 
-export type UseInputType = [string, (e: React.FormEvent<EventTarget>) => void];
+export type UseInputType = [
+  string | number,
+  (e: React.FormEvent<EventTarget>) => void
+];
 
-export const useInput = (initialValue: string): UseInputType => {
-  const [value, setter] = React.useState<string>(initialValue);
+export const useInput = (initialValue: string | number): UseInputType => {
+  const [value, setter] = React.useState(initialValue);
   const handler = React.useCallback((e: React.FormEvent<EventTarget>): void => {
     const target = e.target as HTMLInputElement;
     setter(target.value);
