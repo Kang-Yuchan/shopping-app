@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const Main = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -13,14 +14,9 @@ export const Main = styled.div`
 const LandingPage: React.FC = () => {
   return (
     <Main>
-      <div className='app'>
-        <FaCode style={{ fontSize: "4rem" }} />
-        <br />
-        <span style={{ fontSize: "2rem" }}>Let's Start Coding!</span>
-      </div>
-      <div style={{ float: "right" }}>
-        Thanks For Using This Boiler Plate by Kang yuchan
-      </div>
+      <FaCode style={{ fontSize: "4rem" }} />
+      <br />
+      <span style={{ fontSize: "2rem" }}>Let's Start Coding!</span>
     </Main>
   );
 };

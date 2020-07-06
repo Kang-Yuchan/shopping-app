@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LOG_IN_REQUEST } from "../../../_reducer/user";
 import { RootState } from "../../../_reducer";
 import "react-toastify/dist/ReactToastify.css";
+import { ComponentsProps } from "../../../hoc/auth";
 
 export const Form = styled.form`
   display: flex;
@@ -23,7 +24,7 @@ export const useInput = (initialValue: string): UseInputType => {
   return [value, handler];
 };
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC<ComponentsProps> = props => {
   const dispatch = useDispatch();
   const { me } = useSelector((state: RootState) => state.user);
   const [email, onChangeEmail]: UseInputType = useInput("");
@@ -39,11 +40,9 @@ const LoginPage: React.FC = () => {
           password
         }
       });
-      if (me && me.userId) {
-        toast.success("Log in success!");
-      } else if (me && me.message === "This user is not exist.") {
+      if (me?.message === "This user is not exist.") {
         toast.error("This user is not exist.");
-      } else if (me && me.message === "This password is not currect.") {
+      } else if (me?.message === "This password is not currect.") {
         toast.error("This password is not currect.");
       } else {
         toast.error("Log in failed..");
@@ -51,6 +50,12 @@ const LoginPage: React.FC = () => {
     },
     [email, password]
   );
+
+  React.useEffect(() => {
+    if (me && me.userId) {
+      props.history.push("/");
+    }
+  }, [me && me.userId]);
 
   return (
     <React.Fragment>
