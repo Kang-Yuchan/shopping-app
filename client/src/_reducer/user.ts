@@ -1,6 +1,30 @@
 import produce from "immer";
 
-export const initialState = {
+type UserType = {
+  _id: number;
+  isAdmin: boolean;
+  isAuth: true;
+  email: string;
+  name: string;
+  lastname: string;
+  role: number;
+  image: Array<string>;
+  loginSuccess: boolean;
+  userId: string;
+  message: string;
+};
+
+interface StateType {
+  isLoggingOut: boolean;
+  isLoggingIn: boolean;
+  logInErrorReason: string;
+  signedUp: boolean;
+  isSigningUp: boolean;
+  signUpErrorReason: string;
+  me: UserType | null;
+}
+
+export const initialState: StateType = {
   isLoggingOut: false, // Logout request
   isLoggingIn: false, // Login request
   logInErrorReason: "", // Login error reason
@@ -79,7 +103,6 @@ const reducer = (state = initialState, action: Action) => {
         break;
       }
       case AUTH_REQUEST: {
-        draft.me = null;
         draft.logInErrorReason = "";
         break;
       }
@@ -88,7 +111,6 @@ const reducer = (state = initialState, action: Action) => {
         break;
       }
       case AUTH_FAILURE: {
-        draft.isSigningUp = false;
         draft.logInErrorReason = action.error;
         break;
       }

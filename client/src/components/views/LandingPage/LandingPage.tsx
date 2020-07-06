@@ -1,8 +1,6 @@
 import * as React from "react";
+import { FaCode } from "react-icons/fa";
 import styled from "styled-components";
-import Axios from "axios";
-import { useDispatch } from "react-redux";
-import { LOG_OUT_REQUEST } from "../../../_reducer/user";
 
 export const Main = styled.div`
   display: flex;
@@ -13,21 +11,16 @@ export const Main = styled.div`
 `;
 
 const LandingPage: React.FC = () => {
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    Axios.get("/hello").then(response => console.log(response));
-  }, []);
-
-  const onLogOut = React.useCallback(() => {
-    dispatch({
-      type: LOG_OUT_REQUEST
-    });
-  }, []);
-
   return (
     <Main>
-      LandingPage
-      <button onClick={onLogOut}>Log out</button>
+      <div className='app'>
+        <FaCode style={{ fontSize: "4rem" }} />
+        <br />
+        <span style={{ fontSize: "2rem" }}>Let's Start Coding!</span>
+      </div>
+      <div style={{ float: "right" }}>
+        Thanks For Using This Boiler Plate by Kang yuchan
+      </div>
     </Main>
   );
 };
