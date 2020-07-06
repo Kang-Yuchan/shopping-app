@@ -1,15 +1,18 @@
 import * as React from "react";
 import { Main } from "../LandingPage/LandingPage";
 import { Form, useInput, UseInputType } from "../LoginPage/LoginPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SIGN_UP_REQUEST } from "../../../_reducer/user";
+import { RootState } from "../../../_reducer";
+import { ComponentsProps } from "../../../hoc/auth";
 
-const RegisterPage: React.FC = () => {
+const RegisterPage: React.FC<ComponentsProps> = props => {
   const [email, onChangeEmail]: UseInputType = useInput("");
   const [name, onChangeName]: UseInputType = useInput("");
   const [password, onChangePassword]: UseInputType = useInput("");
   const [passwordCheck, onChangePasswordCheck]: UseInputType = useInput("");
   const dispatch = useDispatch();
+  const { signUpData } = useSelector((state: RootState) => state.user);
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent<EventTarget>): void => {
@@ -31,8 +34,15 @@ const RegisterPage: React.FC = () => {
         }
       });
     },
-    [email, name, password, passwordCheck]
+    [email, name, password, passwordCheck, signUpData]
   );
+
+  React.useEffect(() => {
+    if (signUpData?.userId) {
+      alert("Go to login page !");
+      props.history.push("/login");
+    }
+  }, [signUpData && signUpData.userId]);
 
   return (
     <Main>

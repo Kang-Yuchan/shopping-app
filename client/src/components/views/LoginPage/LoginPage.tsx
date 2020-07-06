@@ -31,31 +31,28 @@ const LoginPage: React.FC<ComponentsProps> = props => {
   const [password, onChangePassword]: UseInputType = useInput("");
 
   const onSubmitForm = React.useCallback(
-    (e: React.FormEvent<EventTarget>): void => {
+    async (e: React.FormEvent<EventTarget>): Promise<void> => {
       e.preventDefault();
-      dispatch({
+      await dispatch({
         type: LOG_IN_REQUEST,
         data: {
           email,
           password
         }
       });
-      if (me?.message === "This user is not exist.") {
-        toast.error("This user is not exist.");
-      } else if (me?.message === "This password is not currect.") {
-        toast.error("This password is not currect.");
-      } else {
-        toast.error("Log in failed..");
-      }
     },
-    [email, password]
+    [email, password, me]
   );
 
   React.useEffect(() => {
-    if (me && me.userId) {
+    if (me && me._id) {
       props.history.push("/");
     }
-  }, [me && me.userId]);
+    if (me && me.userId) {
+      alert("Go to home! you logged in!");
+      props.history.push("/");
+    }
+  }, [me]);
 
   return (
     <React.Fragment>
@@ -71,16 +68,6 @@ const LoginPage: React.FC<ComponentsProps> = props => {
           <button type='submit'>Login</button>
         </Form>
       </Main>
-      <ToastContainer
-        position='bottom-left'
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-      />
     </React.Fragment>
   );
 };

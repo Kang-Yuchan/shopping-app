@@ -78,9 +78,10 @@ function signUpAPI(signUpData: Action) {
 
 function* signUp(action: Action): Generator {
   try {
-    yield call(signUpAPI, action.data);
+    const result: any = yield call(signUpAPI, action.data);
     yield put({
-      type: SIGN_UP_SUCCESS
+      type: SIGN_UP_SUCCESS,
+      data: result.data
     });
   } catch (error) {
     console.error(error);

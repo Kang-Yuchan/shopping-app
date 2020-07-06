@@ -20,6 +20,9 @@ const RightMenu: React.FC<RightMenuProps> = ({ mode }) => {
   if (me && me.isAuth) {
     return (
       <Menu mode={mode}>
+        <Menu.Item key='upload'>
+          <a href='/product/upload'>Upload</a>
+        </Menu.Item>
         <Menu.Item key='logout'>
           <a onClick={onLogOut}>Logout</a>
         </Menu.Item>
@@ -28,10 +31,10 @@ const RightMenu: React.FC<RightMenuProps> = ({ mode }) => {
   } else {
     return (
       <Menu mode={mode}>
-        <Menu.Item key='mail'>
+        <Menu.Item key='sign_in'>
           <a href='/login'>Sign in</a>
         </Menu.Item>
-        <Menu.Item key='app'>
+        <Menu.Item key='sign_up'>
           <a href='/register'>Sign up</a>
         </Menu.Item>
       </Menu>

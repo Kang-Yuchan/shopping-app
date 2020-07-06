@@ -3,15 +3,23 @@ import produce from "immer";
 type UserType = {
   _id: number;
   isAdmin: boolean;
-  isAuth: true;
+  isAuth: boolean;
   email: string;
   name: string;
   lastname: string;
   role: number;
   image: Array<string>;
-  loginSuccess: boolean;
   userId: string;
+  loginSuccess: boolean;
   message: string;
+  isMatch: string | null;
+  existUser: string | null;
+};
+
+type SignUpData = {
+  success: boolean;
+  err: string | null;
+  userId: string;
 };
 
 interface StateType {
@@ -21,6 +29,7 @@ interface StateType {
   signedUp: boolean;
   isSigningUp: boolean;
   signUpErrorReason: string;
+  signUpData: SignUpData | null;
   me: UserType | null;
 }
 
@@ -31,6 +40,7 @@ export const initialState: StateType = {
   signedUp: false, // Sign up success
   isSigningUp: false, // Signup request
   signUpErrorReason: "", // Signup error reason
+  signUpData: null,
   me: null // My information
 };
 
@@ -90,11 +100,13 @@ const reducer = (state = initialState, action: Action) => {
         draft.isSigningUp = true;
         draft.signedUp = false;
         draft.signUpErrorReason = "";
+        draft.signUpData = null;
         break;
       }
       case SIGN_UP_SUCCESS: {
         draft.isSigningUp = false;
         draft.signedUp = true;
+        draft.signUpData = action.data;
         break;
       }
       case SIGN_UP_FAILURE: {

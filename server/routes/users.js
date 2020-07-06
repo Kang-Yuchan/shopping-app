@@ -27,7 +27,8 @@ router.post("/register", (req, res) => {
       return res.json({ success: false, err });
     }
     return res.status(200).json({
-      success: true
+      success: true,
+      userId: userInfo._id
     });
   });
 });
@@ -43,6 +44,7 @@ router.post("/login", (req, res) => {
         // if not exist user
         return res.json({
           loginSuccess: false,
+          existUser: "notUser",
           message: "This user is not exist."
         });
       }
@@ -51,6 +53,7 @@ router.post("/login", (req, res) => {
         if (!isMatch) {
           return res.json({
             loginSuccess: false,
+            isMatch: "notMatch",
             message: "This password is not currect."
           });
         }
