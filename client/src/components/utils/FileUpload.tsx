@@ -2,6 +2,8 @@ import * as React from "react";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { UPLOAD_IMAGES_REQUEST } from "../../_reducer/post";
 
 const Content = styled.div`
   display: flex;
@@ -22,9 +24,20 @@ const PlusIcon = styled(PlusOutlined)`
 `;
 
 const FileUpload: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const onDropFiles = React.useCallback((files: Array<any>) => {
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: formData
+    });
+  }, []);
+
   return (
     <Content>
-      <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+      <Dropzone onDrop={onDropFiles}>
         {({ getRootProps, getInputProps }) => (
           <DropContent {...getRootProps()}>
             <input {...getInputProps()} />

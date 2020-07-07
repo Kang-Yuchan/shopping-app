@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
 const userAPIRouter = require("./routes/users");
+const productAPIRouter = require("./routes/product");
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -35,6 +36,7 @@ app.use(
 
 app.get("/", (req, res) => res.send("Hello express"));
 app.use("/api/users", userAPIRouter);
+app.use("/api/product", productAPIRouter);
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder
