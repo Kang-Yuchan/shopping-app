@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { RootState } from "../../../_reducer";
 import { ComponentsProps } from "../../../hoc/auth";
 import { useInput } from "../LoginPage/LoginPage";
+import FileUpload from "../../utils/FileUpload";
 
 const Content = styled.div`
   max-width: 700px;
@@ -61,6 +62,7 @@ const UploadProductPage: React.FC<ComponentsProps> = props => {
       </TitleContainer>
 
       <form>
+        <FileUpload />
         <br />
         <br />
         <label>Title</label>
