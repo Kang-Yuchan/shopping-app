@@ -3,8 +3,9 @@ import Dropzone from "react-dropzone";
 import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { UPLOAD_IMAGES_REQUEST } from "../../_reducer/post";
+import { UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from "../../_reducer/post";
 import { RootState } from "../../_reducer";
+import { ImageType } from "../../_reducer/post";
 
 const Content = styled.div`
   display: flex;
@@ -51,6 +52,14 @@ const FileUpload: React.FC = () => {
     });
   }, []);
 
+  const deleteImage = (image: ImageType) => {
+    const index = imagePaths.indexOf(image);
+    dispatch({
+      type: REMOVE_IMAGE,
+      index
+    });
+  };
+
   return (
     <Content>
       <Dropzone onDrop={onDropFiles}>
@@ -63,9 +72,9 @@ const FileUpload: React.FC = () => {
       </Dropzone>
       <ImagesContent>
         {imagePaths.map((image, index) => (
-          <React.Fragment key={index}>
+          <div onClick={() => deleteImage(image)} key={index}>
             <Image src={`http://localhost:8080/${image.fileName}`} />
-          </React.Fragment>
+          </div>
         ))}
       </ImagesContent>
     </Content>

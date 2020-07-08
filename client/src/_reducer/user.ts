@@ -49,6 +49,7 @@ export type Action = {
   data: any;
   reason: string;
   error: string;
+  index: number;
 };
 
 export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST";

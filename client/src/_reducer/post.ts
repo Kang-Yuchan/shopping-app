@@ -1,7 +1,7 @@
 import produce from "immer";
 import { Action } from "./user";
 
-type ImageType = {
+export type ImageType = {
   success: boolean;
   image: string;
   fileName: string;
@@ -36,6 +36,8 @@ export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 export const UPLOAD_IMAGES_REQUEST = "UPLOAD_IMAGES_REQUEST";
 export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
+
+export const REMOVE_IMAGE = "REMOVE_IMAGE";
 
 const reducer = (state = initialState, action: Action) => {
   return produce(state, draft => {
@@ -73,6 +75,11 @@ const reducer = (state = initialState, action: Action) => {
       case UPLOAD_IMAGES_FAILURE: {
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
+        break;
+      }
+      case REMOVE_IMAGE: {
+        const index = action.index;
+        draft.imagePaths.splice(index, 1);
         break;
       }
       default: {
