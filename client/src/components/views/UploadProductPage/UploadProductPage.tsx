@@ -82,7 +82,7 @@ const UploadProductPage: React.FC<ComponentsProps> = props => {
         alert("상품 업로드에 실패했습니다.");
       }
     },
-    [title, me, imagePaths, description, price, option, addedPost]
+    [title, me, imagePaths, description, price, option]
   );
 
   return (
