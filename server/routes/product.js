@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const dotenv = require("dotenv");
+const Product = require("../models/Product");
 dotenv.config();
 
 const auth = require("../middleware/auth");
@@ -46,6 +47,15 @@ router.post("/image", auth, (req, res) => {
       image: res.req.file.path,
       fileName: res.req.file.filename
     });
+  });
+});
+
+router.post("/", auth, (req, res) => {
+  //save all the data we got from the client into the DB
+  const product = new Product(req.body);
+  product.save(err => {
+    if (err) return res.status(400).json({ success: false, err });
+    return res.status(200).json({ success: true });
   });
 });
 

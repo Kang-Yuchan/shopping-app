@@ -1,7 +1,7 @@
 import produce from "immer";
 
 type UserType = {
-  _id: number;
+  _id: string;
   isAdmin: boolean;
   isAuth: boolean;
   email: string;
