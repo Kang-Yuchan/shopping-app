@@ -58,7 +58,7 @@ const UploadProductPage: React.FC<ComponentsProps> = props => {
   return (
     <Content>
       <TitleContainer>
-        <Title level={2}> Upload Travel Product</Title>
+        <Title level={2}> Upload Gaming Gear </Title>
       </TitleContainer>
 
       <form>

@@ -34,7 +34,7 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => res.send("Hello express"));
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use("/api/users", userAPIRouter);
 app.use("/api/product", productAPIRouter);
 

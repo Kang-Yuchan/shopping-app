@@ -2,8 +2,9 @@ import * as React from "react";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
 import { PlusOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UPLOAD_IMAGES_REQUEST } from "../../_reducer/post";
+import { RootState } from "../../_reducer";
 
 const Content = styled.div`
   display: flex;
@@ -23,8 +24,23 @@ const PlusIcon = styled(PlusOutlined)`
   font-size: 3rem;
 `;
 
+const ImagesContent = styled.div`
+  display: flex;
+  width: 350px;
+  height: 240px;
+  overflow-x: auto;
+  overflow-y: hidden;
+`;
+
+const Image = styled.img`
+  width: 300px;
+  height: 240px;
+  min-width: 300px;
+`;
+
 const FileUpload: React.FC = () => {
   const dispatch = useDispatch();
+  const { imagePaths } = useSelector((state: RootState) => state.post);
 
   const onDropFiles = React.useCallback((files: Array<any>) => {
     const formData = new FormData();
@@ -45,6 +61,13 @@ const FileUpload: React.FC = () => {
           </DropContent>
         )}
       </Dropzone>
+      <ImagesContent>
+        {imagePaths.map((image, index) => (
+          <React.Fragment key={index}>
+            <Image src={`http://localhost:8080/${image.fileName}`} />
+          </React.Fragment>
+        ))}
+      </ImagesContent>
     </Content>
   );
 };

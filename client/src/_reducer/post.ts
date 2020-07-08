@@ -1,12 +1,21 @@
 import produce from "immer";
 import { Action } from "./user";
 
+type ImageType = {
+  success: boolean;
+  image: string;
+  fileName: string;
+};
+
 interface StateType {
   mainPosts: Array<{}>;
-  imagePaths: Array<{}>; // Preview image path
+  imagePaths: Array<ImageType>; // Preview image path
   addPostErrorReason: string; // Post upload error reason
   isAddingPost: boolean; // Post uploading
   addedPost: boolean; // Post upload success
+  uploadImagesLoading: boolean;
+  uploadImagesDone: boolean;
+  uploadImagesError: string | null;
 }
 
 export const initialState: StateType = {
@@ -14,7 +23,10 @@ export const initialState: StateType = {
   imagePaths: [], // Preview image path
   addPostErrorReason: "", // Post upload error reason
   isAddingPost: false, // Post uploading
-  addedPost: false // Post upload success
+  addedPost: false, // Post upload success
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null
 };
 
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
@@ -47,15 +59,20 @@ const reducer = (state = initialState, action: Action) => {
         break;
       }
       case UPLOAD_IMAGES_REQUEST: {
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = null;
         break;
       }
       case UPLOAD_IMAGES_SUCCESS: {
-        action.data.forEach((p: {}) => {
-          draft.imagePaths.push(p);
-        });
+        draft.imagePaths.push(action.data);
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
         break;
       }
       case UPLOAD_IMAGES_FAILURE: {
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesError = action.error;
         break;
       }
       default: {
