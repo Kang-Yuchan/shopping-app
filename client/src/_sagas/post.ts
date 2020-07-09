@@ -1,11 +1,14 @@
-import { all, fork, takeLatest, put, call } from "redux-saga/effects";
+import { all, fork, takeLatest, put, call, throttle } from "redux-saga/effects";
 import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
-  UPLOAD_IMAGES_FAILURE
+  UPLOAD_IMAGES_FAILURE,
+  LOAD_MAIN_POSTS_REQUEST,
+  LOAD_MAIN_POSTS_SUCCESS,
+  LOAD_MAIN_POSTS_FAILURE
 } from "../_reducer/post";
 import Axios from "axios";
 import { Action } from "../_reducer/user";
@@ -64,6 +67,34 @@ function* watchUploadImages(): Generator {
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
+function loadMainPostsAPI() {
+  return Axios.get(`/product/products`);
+}
+
+function* loadMainPosts(action: Action): Generator {
+  try {
+    const result: any = yield call(loadMainPostsAPI);
+    yield put({
+      type: LOAD_MAIN_POSTS_SUCCESS,
+      data: result.data
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: LOAD_MAIN_POSTS_FAILURE,
+      error: error
+    });
+  }
+}
+
+function* watchLoadMainPosts(): Generator {
+  yield throttle(2000, LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
+}
+
 export default function* postSaga(): Generator {
-  yield all([fork(watchAddPost), fork(watchUploadImages)]);
+  yield all([
+    fork(watchAddPost),
+    fork(watchUploadImages),
+    fork(watchLoadMainPosts)
+  ]);
 }

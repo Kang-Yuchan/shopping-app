@@ -16,6 +16,7 @@ interface StateType {
   uploadImagesLoading: boolean;
   uploadImagesDone: boolean;
   uploadImagesError: string | null;
+  hasMorePost: boolean;
 }
 
 export const initialState: StateType = {
@@ -26,7 +27,8 @@ export const initialState: StateType = {
   addedPost: false, // Post upload success
   uploadImagesLoading: false,
   uploadImagesDone: false,
-  uploadImagesError: null
+  uploadImagesError: null,
+  hasMorePost: false
 };
 
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
@@ -38,6 +40,10 @@ export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
 
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
+
+export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POSTS_REQUEST";
+export const LOAD_MAIN_POSTS_SUCCESS = "LOAD_MAIN_POSTS_SUCCESS";
+export const LOAD_MAIN_POSTS_FAILURE = "LOAD_MAIN_POSTS_FAILURE";
 
 const reducer = (state = initialState, action: Action) => {
   return produce(state, draft => {
@@ -80,6 +86,18 @@ const reducer = (state = initialState, action: Action) => {
       case REMOVE_IMAGE: {
         const index = action.index;
         draft.imagePaths.splice(index, 1);
+        break;
+      }
+      case LOAD_MAIN_POSTS_REQUEST: {
+        draft.hasMorePost = true;
+        break;
+      }
+      case LOAD_MAIN_POSTS_SUCCESS: {
+        draft.mainPosts = action.data;
+        draft.hasMorePost = action.data.length === 10;
+        break;
+      }
+      case LOAD_MAIN_POSTS_FAILURE: {
         break;
       }
       default: {

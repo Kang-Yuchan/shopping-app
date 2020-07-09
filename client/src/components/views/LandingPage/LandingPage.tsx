@@ -1,6 +1,9 @@
 import * as React from "react";
 import { FaCode } from "react-icons/fa";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../_reducer";
+import { LOAD_MAIN_POSTS_REQUEST } from "../../../_reducer/post";
 
 export const Main = styled.div`
   display: flex;
@@ -12,6 +15,14 @@ export const Main = styled.div`
 `;
 
 const LandingPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const { mainPosts } = useSelector((state: RootState) => state.post);
+  React.useEffect(() => {
+    dispatch({
+      type: LOAD_MAIN_POSTS_REQUEST
+    });
+  }, []);
+
   return (
     <Main>
       <FaCode style={{ fontSize: "4rem" }} />

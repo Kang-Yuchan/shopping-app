@@ -50,6 +50,7 @@ export type Action = {
   reason: string;
   error: string;
   index: number;
+  lastId: string;
 };
 
 export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST";
