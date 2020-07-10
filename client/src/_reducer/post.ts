@@ -3,12 +3,30 @@ import { Action } from "./user";
 
 export type ImageType = {
   success: boolean;
-  image: string;
-  fileName: string;
+  image: string | null;
+  fileName: string | null;
 };
 
+export type ProductType = {
+  createdAt: string;
+  description: string;
+  images: Array<ImageType>;
+  option: string;
+  price: number;
+  title: string;
+  updatedAt: string;
+  writer: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  _id: string;
+};
 interface StateType {
-  mainPosts: Array<{}>;
+  mainPosts: {
+    success: boolean;
+    productInfo: Array<ProductType>;
+  };
   imagePaths: Array<ImageType>; // Preview image path
   addPostErrorReason: string; // Post upload error reason
   isAddingPost: boolean; // Post uploading
@@ -20,7 +38,7 @@ interface StateType {
 }
 
 export const initialState: StateType = {
-  mainPosts: [],
+  mainPosts: { success: false, productInfo: [] },
   imagePaths: [], // Preview image path
   addPostErrorReason: "", // Post upload error reason
   isAddingPost: false, // Post uploading
@@ -56,7 +74,7 @@ const reducer = (state = initialState, action: Action) => {
       }
       case ADD_POST_SUCCESS: {
         draft.isAddingPost = false;
-        draft.mainPosts.unshift(action.data);
+        draft.mainPosts.productInfo.unshift(action.data);
         draft.addedPost = true;
         draft.imagePaths = [];
         break;
