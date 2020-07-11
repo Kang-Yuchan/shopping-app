@@ -15,18 +15,26 @@ export const Main = styled.div`
   height: 100vh;
 `;
 
+const CardContent = styled.div`
+  display: flex;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+`;
+
 const { Meta } = Card;
 
 const LandingPage: React.FC = () => {
   const dispatch = useDispatch();
   const { mainPosts } = useSelector((state: RootState) => state.post);
+  const { productInfo } = mainPosts;
   React.useEffect(() => {
     dispatch({
       type: LOAD_MAIN_POSTS_REQUEST
     });
   }, []);
 
-  const renderCards = mainPosts?.productInfo.map((product, index) => {
+  const renderCards = productInfo.map((product, index) => {
     return (
       <Col lg={6} md={8} xs={24}>
         <Card
@@ -40,18 +48,10 @@ const LandingPage: React.FC = () => {
 
   return (
     <Main>
-      <FaCode style={{ fontSize: "4rem" }} />
-      <br />
       {mainPosts?.productInfo.length === 0 ? (
-        <div
-          style={{
-            display: "flex",
-            height: "300px",
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
+        <CardContent>
           <h2>No post yet...</h2>
-        </div>
+        </CardContent>
       ) : (
         <div>
           <Row gutter={[16, 16]}>{renderCards}</Row>
