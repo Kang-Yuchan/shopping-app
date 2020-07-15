@@ -6,7 +6,7 @@ import { RootState } from "../../../_reducer";
 import { ComponentsProps } from "../../../hoc/auth";
 import { useInput } from "../LoginPage/LoginPage";
 import FileUpload from "../../utils/FileUpload";
-import { ADD_POST_REQUEST, ImageType } from "../../../_reducer/post";
+import { ADD_POST_REQUEST } from "../../../_reducer/post";
 
 const Content = styled.div`
   max-width: 700px;
@@ -58,7 +58,7 @@ const UploadProductPage: React.FC<ComponentsProps> = props => {
     if (me?.isAuth === false) {
       props.history.push("/");
     }
-  }, [me && me.isAuth]);
+  }, [me, props.history]);
 
   const onSubmit = React.useCallback(
     async e => {
@@ -82,7 +82,17 @@ const UploadProductPage: React.FC<ComponentsProps> = props => {
         alert("상품 업로드에 실패했습니다.");
       }
     },
-    [title, me, imagePaths, description, price, option]
+    [
+      title,
+      me,
+      imagePaths,
+      description,
+      price,
+      option,
+      props.history,
+      dispatch,
+      user
+    ]
   );
 
   return (

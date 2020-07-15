@@ -5,6 +5,7 @@ import { RootState } from "../../../_reducer";
 import { LOAD_MAIN_POSTS_REQUEST } from "../../../_reducer/post";
 import { Col, Card, Row } from "antd";
 import { RocketOutlined } from "@ant-design/icons";
+import ImageSlider from "../../utils/ImageSlider";
 
 export const Main = styled.div`
   display: flex;
@@ -26,11 +27,6 @@ const CardContent = styled.div`
   align-items: center;
 `;
 
-const CardImage = styled.img`
-  width: 100%;
-  max-height: 150px;
-`;
-
 const { Meta } = Card;
 
 const LandingPage: React.FC = () => {
@@ -49,11 +45,7 @@ const LandingPage: React.FC = () => {
         <Card
           key={index}
           hoverable={true}
-          cover={
-            <CardImage
-              src={`http://localhost:8080/${product.images[0].fileName}`}
-            />
-          }>
+          cover={<ImageSlider images={product.images} />}>
           <Meta title={product.title} description={`$${product.price}`} />
         </Card>
       </Col>
