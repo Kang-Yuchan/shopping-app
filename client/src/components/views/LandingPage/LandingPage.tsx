@@ -27,6 +27,10 @@ const CardContent = styled.div`
   align-items: center;
 `;
 
+const CardBox = styled(Card)`
+  max-width: 300px;
+`;
+
 const { Meta } = Card;
 
 const LandingPage: React.FC = () => {
@@ -42,12 +46,12 @@ const LandingPage: React.FC = () => {
   const renderCards = productInfo.map((product, index) => {
     return (
       <Col lg={6} md={8} xs={24}>
-        <Card
+        <CardBox
           key={index}
           hoverable={true}
           cover={<ImageSlider images={product.images} />}>
           <Meta title={product.title} description={`$${product.price}`} />
-        </Card>
+        </CardBox>
       </Col>
     );
   });
